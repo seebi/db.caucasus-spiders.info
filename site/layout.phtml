@@ -6,7 +6,7 @@
 <head>
     <meta name="generator" content="<?php echo $this->generator ?>" />
     <link rel="alternate" type="application/rdf+xml" href="<?php echo $this->resourceUri ?>.rdf" />
-    <link rel="pingback" href="<?php echo $this->pingbackUri ?>" />
+    <link rel="pingback" href="<?php echo $this->pingbackUrl ?>" />
 
     <link
         rel="<?php echo $this->curie('http://xmlns.com/foaf/0.1/primaryTopic') ?>"
@@ -58,7 +58,7 @@
 <div class="container_16">
     <div class="grid_16">
         <h1 id="branding">
-            <a href="<?php echo $this->site['index'] ?>"><?php echo $this->site['name'] ?></a>
+            <a href="<?php echo $this->siteConfig['index'] ?>"><?php echo $this->siteConfig['name'] ?></a>
         </h1>
     </div>
     <div class="clear"></div>
@@ -73,12 +73,12 @@
                     <li><a href="http://db.caucasus-spiders.info/Area/865">North Caucasus</a></li>
                 </ul>
             </li>
-            <li><a href="http://caucasus-spiders.info/introduction/checklists/bibliography-2/">Literature</a></li>
+            <li><a href="http://db.caucasus-spiders.info/Document/Literature.html">Literature</a></li>
             <li><a href="http://caucasus-spiders.info/spider-habitats/">Spider Habitats</a></li>
             <li><a href="http://caucasus-spiders.info/faq/">FAQ</a></li>
 
             <li class="secondary">
-                <a href="<?php echo $this->wikiBaseUri ?>view?r=<?php echo $this->resourceUri ?>">OntoWiki</a>
+                <a href="<?php echo $this->wikiBaseUrl ?>view?r=<?php echo $this->resourceUri ?>">OntoWiki</a>
             </li>
         </ul>
 
@@ -89,8 +89,8 @@
     </div>
 
     <div class="grid_11">
-        <?php echo $this->partial('spiders/main.phtml', $templateData) ?>
-        <?php echo $this->partial('spiders/feed.phtml', $templateData) ?>
+        <?php echo $this->partial('local/main.phtml', $templateData) ?>
+        <?php echo $this->partial('local/feed.phtml', $templateData) ?>
         <div class="clear"></div>
     </div>
 

@@ -1,0 +1,11 @@
+<tr>
+<td><a href="<?php echo $this->pubResource ?>"><?php echo $this->pubLabel ?></a></td>
+    <td><?php echo $this->pubDescription ?></td>
+    <td>
+<?php
+    if (isset($this->pubComment)) {
+        echo $this->pubComment;
+    } 
+?>
+</td>
+</tr>

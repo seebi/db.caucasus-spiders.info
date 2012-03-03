@@ -1,0 +1,91 @@
+<?php
+// this is the standard template data
+$templateData = array(
+    'title' => $this->title,
+    'resourceUri' => $this->resourceUri,
+    'description' => $this->description,
+    'descriptionHelper' => $this->descriptionHelper
+);
+
+
+?>
+<div class="box">
+    <h2 class="record"><?php echo $this->title ?></h2>
+    <div class="block">
+<div class="article first">
+    <?php echo $this->partial('spiders/content.phtml', $templateData); ?>
+
+<?php
+$rdfsComment = 'http://www.w3.org/2000/01/rdf-schema#comment';
+if (isset($this->description[$rdfsComment])) {
+    $comment = $this->description[$rdfsComment][0]['value'];
+    echo '<p><strong>Comments:</strong> '.$comment.'</p>';
+}
+?>
+
+<p class="meta">
+<?php
+$model = OntoWiki::getInstance()->selectedModel;
+$titleHelper = new OntoWiki_Model_TitleHelper($model);
+
+foreach ($this->description as $key => $value) {
+    $titleHelper->addResource($value[0]['value']);
+}
+
+$species = 'http://purl.org/net/faunistics#identifiesAs';
+if (isset($this->description[$species])) {
+    $theId = $this->description[$species][0]['value'];
+    $title = $titleHelper->getTitle($theId);
+    echo 'Species: <a href="'.$theId.'">'.$title.'</a></br>' . PHP_EOL;
+}
+$location = 'http://purl.org/net/faunistics#recordedAtLocation';
+$lat = 'http://www.w3.org/2003/01/geo/wgs84_pos#lat';
+$long = 'http://www.w3.org/2003/01/geo/wgs84_pos#long';
+if (isset($this->description[$location])) {
+    $theId = $this->description[$location][0]['value'];
+
+    $theLocation = new OntoWiki_Resource($theId, $model);
+    $theLocationDesc = $theLocation->getDescription();
+    $theLocationDesc = $theLocationDesc[$theId];
+    if (isset($theLocationDesc[$lat])) {
+        $latValue = $theLocationDesc[$lat][0]['value'];
+        $longValue = $theLocationDesc[$long][0]['value'];
+        $locationAddon =
+            '<span style="display: none" class="lat">'.$latValue.'</span>'.
+            '<span style="display: none" class="long">'.$longValue.'</span>';
+    } else {
+        $locationAddon = '';
+    }
+
+    $title = $titleHelper->getTitle($theId);
+    echo 'Location: <a class="location" '.
+        ' about="'.$theId.'"'.
+        ' href="'.$theId.'">'.
+        '<span class="name">'.$title.'</span>'.
+        $locationAddon . '</a></br>' . PHP_EOL;
+}
+
+$citedIn = 'http://purl.org/net/faunistics#citedIn';
+$publication = 'http://purl.org/net/faunistics#publishedIn';
+if (isset($this->description[$citedIn])) {
+    $theId = $this->description[$citedIn][0]['value'];
+    $title = $titleHelper->getTitle($theId);
+    echo 'Cited in: <a href="'.$theId.'">'.$title.'</a></br>' . PHP_EOL;
+} else if (isset($this->description[$publication])) {
+    $theId = $this->description[$publication][0]['value'];
+    $title = $titleHelper->getTitle($theId);
+    echo 'Publication: <a href="'.$theId.'">'.$title.'</a></br>' . PHP_EOL;
+}
+?>
+</p>
+
+    </div>
+    </div>
+</div>
+<div class="box">
+    <h2>Map</h2>
+    <div class="block">
+        <div class="speciesmap">...</div>
+    </div>
+</div>
+

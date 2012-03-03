@@ -17,6 +17,7 @@ $(document).ready(function() {
         var lon = $(this).find('span.long').text();
         var uri = $(this).attr('about');
         var name = $(this).find('span.name').text();
+
         var html = '<p><strong about"'+ uri +'">' + name + '</strong></p>'
             +'<ul>'
             +'<li><a href="'+uri+'">go to place</a></li>'
@@ -35,7 +36,7 @@ $(document).ready(function() {
                     infowindowanchor:   [8, 2],
                     image:              "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.2|330|FF00FF|1"
                 };
-        
+
 
         if ((lat.length > 0) && (lon.length > 0)) {
             m = {
@@ -58,7 +59,7 @@ $(document).ready(function() {
         longitude: 43.59,
         zoom: 6
     });
-    
+
 });
 
 function filterList (name) {

@@ -12,7 +12,7 @@ $mergedRecordsResult = array();
 
 /*
  * CITED RECORDS START
- * 
+ *
  */
 $citedRecords = new Erfurt_Sparql_SimpleQuery();
 $citedRecords->setProloguePart('
@@ -81,13 +81,13 @@ foreach ($citedRecordsResult as $row) {
     $key = $row['SpeciesURI'];
     $row['CitedRecords'] = $row['RecordCount'];
     $row['OriginalRecords'] = "0";
-    #unset($row['RecordCount']);    
+    #unset($row['RecordCount']);
     $mergedRecordsResult[$key] = $row;
 }
 
 /*
  * ORIGINAL RECORDS START
- * 
+ *
  */
 $originalRecords = new Erfurt_Sparql_SimpleQuery();
 $originalRecords->setProloguePart('
@@ -160,7 +160,7 @@ foreach ($originalRecordsResult as $row) {
     } else {
         $row['CitedRecords'] = "0";
         $row['OriginalRecords'] = $row['RecordCount'];
-        unset($row['RecordCount']);    
+        unset($row['RecordCount']);
         $mergedRecordsResult[$key] = $row;
         #echo "$key DOES NOT exist<br>";
     }
@@ -174,7 +174,7 @@ foreach ($originalRecordsResult as $row) {
         <?php echo $this->title ?>
     </h2>
     <div class="block">
-        <p><?php echo $this->partial('spiders/content.phtml', $templateData); ?></p>
+        <p><?php echo $this->partial('local/content.phtml', $templateData); ?></p>
     </div>
 </div>
 <div class="box">
@@ -188,7 +188,7 @@ foreach ($originalRecordsResult as $row) {
                     <th>Original Records</th>
                     <th>Cited Records</th>
                     <th>Family</th>
-                    <th>Genus</th>                    
+                    <th>Genus</th>
                 </tr>
             </thead>
             <tbody>

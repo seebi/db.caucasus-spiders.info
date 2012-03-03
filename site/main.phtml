@@ -22,17 +22,24 @@ if (isset($this->description['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'])
     switch ($types) {
         case (isset($types['http://purl.org/net/faunistics#Location'])):
         case (isset($types['http://purl.org/net/faunistics#Area'])):
-            echo $this->partial( 'spiders/types/checklist.phtml', $templateData);
+            echo $this->partial( 'local/types/checklist.phtml', $templateData);
             break;
         case (isset($types['http://purl.org/net/faunistics#Species'])):
-            echo $this->partial( 'spiders/types/species.phtml', $templateData);
+            echo $this->partial( 'local/types/species.phtml', $templateData);
             break;
         case (isset($types['http://purl.org/net/faunistics#Publication'])):
-            echo $this->partial( 'spiders/types/publication.phtml', $templateData);
+            echo $this->partial( 'local/types/publication.phtml', $templateData);
+            break;
+        case (isset($types['http://purl.org/net/faunistics#CitedRecord'])):
+        case (isset($types['http://purl.org/net/faunistics#OriginalRecord'])):
+            echo $this->partial( 'local/types/record.phtml', $templateData);
+            break;
+        case ($this->resourceUri == 'http://db.caucasus-spiders.info/Document/Literature'):
+            echo $this->partial( 'local/types/literature.phtml', $templateData);
             break;
         default:
             // no specific template found
-            echo $this->partial( 'spiders/default.phtml', $templateData);
+            echo $this->partial( 'local/default.phtml', $templateData);
             break;
     }
 }
