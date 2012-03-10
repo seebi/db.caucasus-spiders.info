@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<?php
+
+$templateData           = $this->templateData;
+
+?><!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
     xmlns:dc="http://purl.org/dc/terms/"
     xmlns:foaf="http://xmlns.com/foaf/0.1/">
@@ -35,26 +38,6 @@
     <title><?php echo $this->descriptionHelper->getTitle($this->resourceUri) ?> :: Caucasian Spiders</title>
 </head>
 <body about="<?php echo $this->resourceUri?>">
-<?php
-    // this is the standard template data
-    $templateData = array(
-                    'title' => $this->descriptionHelper->getTitle($this->resourceUri),
-                    'resourceUri' => $this->resourceUri,
-                    'description' => $this->description[$this->resourceUri],
-                    'descriptionHelper' => $this->descriptionHelper
-            );
-    function printNavi($navi, $titleHelper, $depth){
-        if(is_array($navi) && count($navi)>0):?>
-                    <?php foreach ($navi as $navurl => $subnavi) : ?>
-                    <li>
-                        <a href="<?php echo $navurl ?>"><?php for($i=0; $i< $depth; $i++){echo "&nbsp;&nbsp;";} echo $titleHelper->getTitle($navurl) ?></a>
-                        <?php printNavi($subnavi, $titleHelper, $depth+1); ?>
-                    </li>
-                    <?php endforeach; ?>
-       <?php endif; 
-   }
-
-?>
 <div class="container_16">
     <div class="grid_16">
         <h1 id="branding">
@@ -89,7 +72,7 @@
     </div>
 
     <div class="grid_11">
-        <?php echo $this->partial('local/main.phtml', $templateData) ?>
+        <?php echo $this->renderx() ?>
         <?php echo $this->partial('local/feed.phtml', $templateData) ?>
         <div class="clear"></div>
     </div>
