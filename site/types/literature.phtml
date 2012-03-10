@@ -1,66 +1,27 @@
-<?php
-// this is the standard template data
-$templateData = array(
-    'title' => $this->title,
-    'resourceUri' => $this->resourceUri,
-    'description' => $this->description,
-    'descriptionHelper' => $this->descriptionHelper
-);
-
-
-/*
- * CITED RECORDS START
- *
- */
-$publications = new Erfurt_Sparql_SimpleQuery();
-$publications->setProloguePart('
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX faun: <http://purl.org/net/faunistics#>
-PREFIX dc: <http://purl.org/dc/elements/1.1/>
-
-SELECT DISTINCT ?pubResource ?pubLabel ?pubDescription ?pubComment
-    ');
-
-$publications->setWherePart('
-WHERE {
-
-  ?pubResource a faun:Publication.
-  ?pubResource dc:description ?pubDescription.
-  ?pubResource rdfs:label ?pubLabel.
-  OPTIONAL {
-  ?pubResource rdfs:comment ?pubComment.
-  }
-}
-    ');
-
-$publications->setOrderClause('
-ASC(?pubDescription)
-    ');
-
-$publications->setLimit('10000');
-
-try {
-    $store = OntoWiki::getInstance()->erfurt->getStore();
-    $publicationsResult = $store->sparqlQuery($publications);
-} catch (Exception $e) {
-    // executions failed (return nothing)
-    return $e->getMessage();
-}
-
-//var_dump($publicationsResult);
-//exit;
-
-?>
 <div class="box">
     <h2>
         <?php echo $this->title ?>
     </h2>
-    <div class="block">
-        <p><?php echo $this->partial('local/content.phtml', $templateData); ?></p>
-    </div>
-</div>
-<div class="box">
-    <h2>heading</h2>
+    <?php echo $this->literal(array('tag' => 'div', 'class' => 'block')); // uses default content properties ?>
+
+<?php
+$publications = '
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX faun: <http://purl.org/net/faunistics#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+SELECT DISTINCT ?resourceUri ?pubLabel ?pubDescription ?pubComment
+WHERE {
+  ?resourceUri a faun:Publication.
+  ?resourceUri dc:description ?pubDescription.
+  ?resourceUri rdfs:label ?pubLabel.
+  OPTIONAL {
+  ?resourceUri rdfs:comment ?pubComment.
+  }
+}
+ASC(?pubDescription)
+LIMIT 10000
+';
+?>
     <div class="block">
         <table class="checklist">
             <thead>
@@ -72,7 +33,7 @@ try {
             </thead>
             <tbody>
                 <?php echo $this->querylist(
-                        $publicationsResult,
+                        $publications,
                         'local/types/literature-row.phtml',
                         array('isResult' => true) ); ?>
             </tbody>
